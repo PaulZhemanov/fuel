@@ -37,9 +37,9 @@ async fn get_contract_instance() -> (Counter<WalletUnlocked>, ContractId) {
 #[tokio::test]
 async fn can_get_contract_id() {
     let (instance, _id) = get_contract_instance().await;
-    let res = instance.methods().count().simulate().await;
-    assert!(res.unwrap().value == 0);
+    let count = instance.methods().count().simulate().await.unwrap().value;
+    assert!(count == 0);
     instance.methods().increment().call().await.unwrap();
-    let res = instance.methods().count().simulate().await;
-    assert!(res.unwrap().value == 1);
+    let count = instance.methods().count().simulate().await.unwrap().value;
+    assert!(count == 1);
 }
